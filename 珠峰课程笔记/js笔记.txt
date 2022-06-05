@@ -1,0 +1,15 @@
+dom 0级事件
+给dom元素对象类似于onxxx的属性给这些属性附一个函数属性
+事件绑定 
+dom.onclick='fn'
+事件解除绑定
+dom.onclick = null
+
+
+dom  2 级事件绑定
+ dom.addEventListener('click',fn1,false)
+移除
+ dom.removeEventListener('click',fn1,false)
+原理
+每一个dom元素都会基于__proto__,查找到eventTarget.prototype上的.addEventListener ，removeEventListener方法
+ 给事件池添加函数或移除函数

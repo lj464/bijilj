@@ -1,0 +1,128 @@
+箭头函数没有argument,没有prototype，不能new 使用
+浅拷贝：只拷贝对象的第一层
+通过 Object.getOwnPropertySymbols(obj)来获取Obj对象中的symbol的key
+weackSet 只能存放对象类型，不能防基本类型，对于对象类型的引用是弱引用
+map类型 可以使用对象来作为对象的key
+Object.entries(obj) 可以让obj使用数组的方法
+promise
+如果promise resolve一个reject的promise则当前的也是reject状态的
+如果是一个对象，且对象中有then方法then方法对应一个函数，函数有resolve，reject两个回调，在函数作用域中调用rejiect，则当前promise也是reject状态的
+promise,then方法return一个aaa则可以继续链式调用promise，且链式调用为reject（aaa）的一个promise
+类方法
+Promise.all()
+Object.keys()
+class {
+  stick all(){}	
+}
+promise 的链式调用，上一个promise不管是resove retunrn 的值 还是reject return 的值都能下一个的then方法的第一个回调检测到，
+只有抛出异常才能被then方法的第二个回调检测到检测到
+执行宏任务前要保证当前微任务队列为空，微任务有then(),函数的回调
+
+commjs模块化，module.exports={} 导出 require('路径')获得导出文件，或者用exports.name='zs'来导出
+这样导出是因为exports 和module.exports指向的是同一个对象 要是module.exports指向的对象改变了则exports不可以导出
+
+import * as aaa from './a.js'
+import('地址').then(res=>{})这样是异步加载的不会影响后续代码的执行
+
+ESmodule流程，1先下载js文件，a.js,b.js,c.js其中a引入b,c，那么先下载a,bc，此时a，引入和bc导出的都是undefined,然后运行代码
+给js导出赋值，导出者(b,c)可以修改导出的值，导入者不能修改值
+
+
+commjs，和esmodule, 在webpack环境下可以通用，用module.export导出，用import {} from 导入
+exports导出，require导入
+
+npm i webpack -D 只有在开发时需要
+对应package.json里的devDependencies
+dependencies 对应生产环境线上环境都要的
+
+
+cookie是服务器设置的，也是服务器读取的
+history.pushState({name:zs},'','/detail')不会刷新网页
+history.state() = {name:zs}
+history.replaceState()不会刷新网页，且不会有历史记录
+
+当函数的参数有默认值时会形成新的作用域，这个作用域是参数作用域
+
+把浏览器同一个标签看成一次会话，在同一个标签下跳转localStorage,和sessionstorage都在
+如果跳转打开了新标签，sessionStorage就不存在了但是localstorage存在
+locastorage在存储是看是否为同一个域下如果是不同域则拿不到
+
+
+js高级
+生成器函数再function后有一个*号
+
+再函数内部可以通过yield对函数进行分割
+
+函数执行时会返回一个特殊的迭代器，这个迭代器调一下next方法就能执行分割的函数
+
+throw 可以抛出一个异常，终止函数的执行告诉函数调用者哪里出错了
+
+throw  new Error('111') new Error 为系统提供的类错误消息
+
+
+源码
+
+如果数据是对象，会将对象不停递归，进行劫持，如果是数组会劫持数组的方法，对数组中不是基本类型的类型进行检测
+watch   //watch有一个sync的修饰符可以让wanch,如果数据快速改变两次则调用两次函数
+watch:{
+  name:{
+  sync:true,
+  handle(){
+}
+}
+}
+Array.isArray(数组)判断数组
+
+substr(a,b)
+a代表起点，b代表长度 数组的splice
+substring(a,b)
+a,起点index b终点index 数组slice
+ 类型判断
+ type of 可以判断基本类型不能判断引用类型（除了function）
+ instance of 可以判断引用类型不能判断基本类型
+通用方法 Object.protyoe.toString() 对象 ‘[Object:Object]’
+                                                     字符串 ‘[Object:String]’
+                                                     数组   ‘Object:Array’
+具体用法
+ function getType(obj){
+  let type  = typeof obj;
+  if (type !== "object") {    // 先进行typeof判断，如果是基础数据类型，直接返回
+    return type;
+  }
+  // 对于typeof返回结果是object的，再进行如下的判断，正则返回结果
+  return Object.prototype.toString.call(obj).replace(/^\[object (\S+)\]$/, '$1'); 
+}
+垃圾回收机制
+标记清除
+对与常量如果进入环境则标记为引用
+var m = 0,n = 19 // 把 m,n,add() 标记为进入环境。
+add(m, n) // 把 a, b, c标记为进入环境。
+console.log(n) // a,b,c标记为离开环境，等待垃圾回收。 函数执行完成函数就标记垃圾回收 一般对应常量
+function add(a, b) {
+  a++
+  var c = a + b
+  return c
+}
+引用计数
+ 
+闭包理解
+一般是两个函数嵌套，父函数的变量被子函数访问到，父函数中vo:ao中声明的变量，此时我们把子函数返回在并用变量接受，那么就是一个闭包，
+变量存储的函数都会创建一个vo:ao,这个ao就存储着子函数访问的变量
+也可以说一个函数访问到外层变量，那么这个函数和访问到的上层作用域变量这个整体就是一个闭包
+闭包形成的原因
+ 函数解析时会确认parentScoped,及父级作用域，这个就是父的AO,子函数被变量接受及子函数不会被销毁，及父函数的ao不会被销毁
+
+let p1 = new Person
+那么 p1__proto__(隐式原型) === perSon.prototype perSon的显示原型
+这个对象有一个constroctor 指向了函数的 既  perSon.prototype.constroctor  === perSon
+
+let obj1 = {} 相当于obj1 = new Object() 所以 obj1__proto__ === Object.prototype、
+因为 p1  也是一个对象 所以要有Objec 顶层的方法所以 peoson.prototype的__proto__ 就是顶层Object的prototype
+
+继承如何实现的
+stu.prototype = OBject.created(person.peototype)  //把stu的原型替换成以person.peototype为隐士原型的对象
+function stu(){
+   person.call(this,..params)  //借用person的方法
+}
+
+

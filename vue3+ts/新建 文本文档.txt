@@ -1,0 +1,15 @@
+ts  声明模块
+如果是对象
+declare module loadh {
+	export function join(arr:any:[]):volid{}
+}
+如果是常量
+ declare let name:string
+如果是函数
+declare function whyfoo() :volid
+如果是类
+declare class person {
+  name:string
+  age:number
+ constructor()
+}

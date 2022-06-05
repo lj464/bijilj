@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="file" id="file" />
+    <script>
+        let targetWidth = 500 // 目标宽度
+        let targetHeight = 500 //目标高度
+        let file = document.querySelector('#file')
+        file.addEventListener('change', unloadFile)
+        function unloadFile(e) {
+            let [file] = e.target.files
+            readData(file, parseSmall)
+        }
+        // 转化为base64
+        function readData(data, callback) {
+            let reader = new FileReader(data)
+            reader.addEventListener('load', function (e) {
+                callback && callback(reader.result,upload)
+                // 防止闭包
+                reader = null
+            })
+            reader.readAsDataURL(data)
+        }
+        // 压缩图片
+        function parseSmall(data,upload) {
+            let image = document.createElement('img')
+            image.src = data
+            document.body.appendChild(image)
+            image.addEventListener('load', function () {
+                let dataParse = false
+                let parseData = 1
+                let width = image.naturalWidth
+                let height = image.naturalHeight
+                if (width > targetWidth) {
+                    // 实际宽度大于目标宽度
+                    dataParse = true
+                    parseData = width / targetWidth
+                    width = targetWidth
+                    height = height / parseData
+                }
+                if (height > targetHeight) {
+                    dataParse = true
+                    height = targetHeight
+                    parseData = height / targetHeight
+                    width = targetWidth / parseData
+                }
+                const canvas = document.createElement('canvas')
+                canvas.setAttribute('id', '__parse__')
+                canvas.width = width
+                canvas.height = height
+                canvas.style.visibility = 'visible'
+                const ctx = canvas.getContext('2d')
+                // 第一次压缩宽高
+                ctx.clearRect(0, 0, width, height)
+                ctx.drawImage(image, 0, 0, width, height)
+                // 第二次压缩质量转化为宽高比 0~1 的质量比
+                const canvansUrl = canvas.toDataURL('image/jpeg',0.7)
+                // const _image = document.createElement('img')
+                // _image.src = canvansUrl
+                upload(canvansUrl)
+                console.log('压缩比',data.length/canvansUrl.length);
+            })
+        }
+        function upload(data){
+            // console.log(data);
+            // 上传
+        }
+    </script>
+</body>
+
+</html>

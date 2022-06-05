@@ -1,0 +1,43 @@
+ 类型判断
+ type of 可以判断基本类型不能判断引用类型（除了function）
+ instance of 可以判断引用类型不能判断基本类型
+通用方法 Object.protyoe.toString() 对象 ‘[Object:Object]’
+                                                     字符串 ‘[Object:String]’
+                                                     数组   ‘Object:Array’
+具体用法
+ function getType(obj){
+  let type  = typeof obj;
+  if (type !== "object") {    // 先进行typeof判断，如果是基础数据类型，直接返回
+    return type;
+  }
+  // 对于typeof返回结果是object的，再进行如下的判断，正则返回结果
+  return Object.prototype.toString.call(obj).replace(/^\[object (\S+)\]$/, '$1'); 
+}
+垃圾回收机制
+标记清除
+对与常量如果进入环境则标记为引用
+var m = 0,n = 19 // 把 m,n,add() 标记为进入环境。
+add(m, n) // 把 a, b, c标记为进入环境。
+console.log(n) // a,b,c标记为离开环境，等待垃圾回收。 函数执行完成函数就标记垃圾回收 一般对应常量
+function add(a, b) {
+  a++
+  var c = a + b
+  return c
+}
+引用计数
+ 
+闭包理解
+一般是两个函数嵌套，父函数的变量被子函数访问到，父函数中vo:ao中声明的变量，此时我们把子函数返回在并用变量接受，那么就是一个闭包，
+变量存储的函数都会创建一个vo:ao,这个ao就存储着子函数访问的变量
+也可以说一个函数访问到外层变量，那么这个函数和访问到的上层作用域变量这个整体就是一个闭包
+闭包形成的原因
+ 函数解析时会确认parentScoped,及父级作用域，这个就是父的AO,子函数被变量接受及子函数不会被销毁，及父函数的ao不会被销毁
+如果子没有应用父ao的var age = '12'属性，那么age就会被销毁
+  0.2+0.1 == 0.3 false
+解决 （0.1*10 + 0.2*10 ）/ 10
+
+[] instanceof Object true , {} instance of Object true ,Array.isArray({}) false , Array.isArray([]) true
+所以用instance of 不能区分数组和对象，要先用Array.isArray()判断
+
+
+

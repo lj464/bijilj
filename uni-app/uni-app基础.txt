@@ -1,0 +1,43 @@
+vue 优化 data 层级不能嵌套太深，响应式做监听会递归，尽量做得扁平一点
+使用ssR
+vue3生命周期和vue2相比
+beforeDestroy 改为 beforeUnmount
+destroyed 改为 unmounted
+vue3比vue2快速的原因
+pathFlag 模板编译时动态节点做标记 并且区分动态类型diff算法时可以区分静态节点，只比动态节点
+hoistStatic 把静态节点的vnode 抽出来下一次不用在创建
+
+
+
+uni-app学习笔记
+	/* #ifdef  MP-WEIXIN */
+	.active {
+		color: red;
+	}
+	/* #endif  */
+
+只在微信端编译这个样式
+生命周期
+1.应用生命周期
+定义在APP.vue中，
+   onLaunch //应用初始化触发一次全局触发一次 1  组件 1
+   onshow //应用启动时或者从后台进入前台时触发 2    2 
+    onHide //应用从前台进入后台时触发
+2.页面生命周期
+  onLoad //监听页面加载 3  5
+  onShow  // 监听页面显示 4 6
+   //如果渲染快会在页面进入动画完成前完成 
+  onReady  //监听页面初次渲染完成 5  8
+  onHide  // 监听页面隐藏  6
+  onUnload // 监听页面卸载 
+
+ 如果采用 uni.navigateTo 打开新页面只会触发旧页面的 onHide 生命周期，因为旧页面并没有消失再返回只触发旧页面的onshow生命周期
+ 如果采用 uni.redirectTo() 打开新页面会触发旧页面的    onUnload 生命周期 ，再返回会触发    onLoad  onShow   onReady  这三个生命周期
+3.组件的生命周期
+ beforeCreated // 在实例初始话后，数据观测，事件配置之前调用  3
+ created // 实例创建完成后调用   4 
+ mounted //在挂载到实例上去后调用  7
+ destroyed // vue实例销毁后调用
+完整的就是vue的生命周期
+如果刚开始没有挂载 显示就是  beforeCreated  created  mounted
+隐藏  destroyed 

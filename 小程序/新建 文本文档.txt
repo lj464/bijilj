@@ -1,0 +1,8 @@
+小程序 笔记
+1 page 设置padding要设置box-sizing-box 会放大盒子
+2 设置border-redio 左上角无效要设置tarnsform translatey0
+3 小程序默认插槽 + 号表示 下一个 ，所以插槽要写到最扇面
+4 image 标签会有经典向下三像素的外边距，要display:block解除
+5 小程序中使用多个插槽，要设置options:{mutipleSloats:tryue}才能使用
+6 animation-play-state 表示动画的状态有启动和暂停两种
+7 如果要获取用户信息，就给一个按钮注册点击事件，事件调用wx.getuserProfile()

@@ -1,0 +1,1 @@
+xhr.upload.onprogress() 监听进度条
